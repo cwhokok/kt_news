@@ -9,7 +9,7 @@ from bs4 import BeautifulSoup
 
 
 # 초기 Data
-db_jijache = pd.read_csv('/Users/jun/Desktop/dev/kt_news/db_jijache.csv', encoding='cp949') ## 담당자-키워드
+db_jijache = pd.read_csv('./db_jijache.csv', encoding='cp949') ## 담당자-키워드
 ## html 초기세팅
 html_msg_start = """
 <!DOCTYPE html>
@@ -104,7 +104,6 @@ for keyword in db_jijache['jijache']:   ## 지자체 리스트 순회
                 url = 'https://search.naver.com/search.naver?where=news&query={}&sm=tab_opt&sort=0&photo=4&field=0&pd=4&ds={}&de={}&docid=&related=0&mynews=0&office_type=0&office_section_code=0&news_office_checked=&nso=so%3Ar%2Cp%3A1d&is_sug_officeid=0&start={}&refresh_start=0'.format(
                     keyword,datetime.datetime.today().strftime("%Y.%m.%d") if datetime.datetime.today().weekday() != 0 else (datetime.datetime.today() - datetime.timedelta(days=3)).strftime("%Y.%m.%d"),
                     datetime.datetime.today().strftime("%Y.%m.%d"), start)
-            # url = 'https://search.naver.com/search.naver?where=news&sm=tab_pge&query={}&sort=0&photo=4&field=0&pd=2&ds=2022.10.31&de=2022.10.31&cluster_rank=20&mynews=0&office_type=0&office_section_code=0&news_office_checked=&nso=so:r,p:1m,a:all&start={}&refresh_start=0'.format(keyword,start)
             headers = {
                 'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36',
                 'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9'}
