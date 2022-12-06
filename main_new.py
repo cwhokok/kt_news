@@ -3,13 +3,13 @@ import datetime
 import pandas as pd
 import jellyfish
 import smtplib
+import os
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from bs4 import BeautifulSoup
 
-
 # 초기 Data
-db_jijache = pd.read_csv('./db_jijache.csv', encoding='cp949') ## 담당자-키워드
+db_jijache = pd.read_csv(os.path.dirname(os.path.realpath(__file__))+'/db_jijache.csv', encoding='cp949') ## 담당자-키워드
 ## html 초기세팅
 html_msg_start = """
 <!DOCTYPE html>
@@ -208,5 +208,7 @@ def send_email(mail_to):
 
 ##mail send
 send_email('sangyoung.jun@kt.com')
-send_email('sunhee.ryu@kt.com')
-send_email('kangwook.lee@kt.com')
+# send_email('sunhee.ryu@kt.com')
+# send_email('kangwook.lee@kt.com')
+# send_email('young-in.kim@kt.com')
+# send_email('daehan.park@kt.com')
