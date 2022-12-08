@@ -185,7 +185,7 @@ def send_email(mail_to):
         msgRoot = MIMEMultipart('related')  # 그대로 작성
         msgRoot['Subject'] = '[press release] ' + str(datetime.datetime.today().month) + '월 ' + str(
             datetime.datetime.today().day) + '일'
-        msgRoot['From'] = 'cwhokok@gmail.com'
+        msgRoot['From'] = 'GnNitTeam@gmail.com'
         msgRoot['To'] = mail_to
         msgAlternative = MIMEMultipart('alternative')
         msgRoot.attach(msgAlternative)
@@ -198,7 +198,7 @@ def send_email(mail_to):
         ## 메일 전송
         s = smtplib.SMTP('smtp.gmail.com', 587)  # 세션 생성
         s.starttls()  # TLS 보안 시작
-        s.login('cwhokok', 'gunnlsfvwmxhsxwq')  # 로그인 인증
+        s.login('gnnitteam', 'cywyatspmibwfxdz')  # 로그인 인증
         s.sendmail(msgRoot['From'], msgRoot['To'], msgRoot.as_string())  # 메일 보내기
         s.quit()
     except:
