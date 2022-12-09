@@ -183,7 +183,7 @@ def send_email(mail_to):
     try:
         ## Mail 초기설정
         msgRoot = MIMEMultipart('related')  # 그대로 작성
-        msgRoot['Subject'] = '[press release] ' + str(datetime.datetime.today().month) + '월 ' + str(
+        msgRoot['Subject'] = '[지자체 press release] ' + str(datetime.datetime.today().month) + '월 ' + str(
             datetime.datetime.today().day) + '일'
         msgRoot['From'] = 'GnNitTeam@gmail.com'
         msgRoot['To'] = mail_to

@@ -5,12 +5,13 @@ import jellyfish
 import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
+import os
 
 
 # 초기 Data
-df_email = pd.read_csv('email_anjun.csv', encoding='cp949') ## 담당자-연락처(email)
+df_email = pd.read_csv(os.path.dirname(os.path.realpath(__file__))+'/email_anjun.csv') ## 담당자-연락처(email)
 dic_email = df_email.set_index('name').T.to_dict()
-df = pd.read_csv('db_anjun.csv', encoding='cp949') ## 담당자-키워드
+df = pd.read_csv(os.path.dirname(os.path.realpath(__file__))+'/db_anjun.csv') ## 담당자-키워드
 dic = df.groupby('name')['keyword'].apply(list).to_dict() ## 데이터 >> {이름:[키워드...]}
 
 ## Naver Api 초기설정
@@ -127,7 +128,7 @@ for name,keywords in dic.items():
                     ## 24시간 이내만 추출
                     pubDate = datetime.datetime.strptime(item['pubDate'], '%a, %d %b %Y %H:%M:%S +0900')
                     _day = pubDate - datetime.datetime.now()
-                    if _day.days < -3:  ##!!!!!! -1
+                    if _day.days < -6:  ##!!!!!! -1
                         break
 
                     keyword_msg_array.append([keyword, replace_title, item['link']])
