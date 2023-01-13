@@ -66,8 +66,44 @@ html_msg_end = """
 """
 html_msg_all = ""
 
-
 html_msg = html_msg_start
+
+## 인천시청 보도자료 크롤링 ------------------------------------------------------------------------------------------
+def direct_crawling(area):
+    yesterday = (datetime.datetime.today() - datetime.timedelta(1)).strftime("%Y-%m-%d")
+    response = requests.get(f'https://www.incheon.go.kr/IC010205?beginDt={yesterday}&endDt={yesterday}')
+    soup = BeautifulSoup(response.text, 'html.parser')
+    lst = soup.select_one("#content > div.content-body > div > div.board-blog-list")
+    news_title = [title.text for title in lst.find_all('strong', attrs={'class': 'subject'})]  # 기사 제목
+    news_href = ['https://www.incheon.go.kr' + href['href'] for href in lst.find_all('a')]
+    df_news = pd.DataFrame({'title': news_title, 'link': news_href})
+    return df_news
+
+df_inchon = direct_crawling('인천')
+if len(df_inchon) > 0:
+    html_msg = html_msg + """
+    <b sytle='font-size:15pt;'>[인천광역시(공식)]</b><br>
+    <table cellspacing=0>
+    <tr>
+        <th class='rh' width="120px">고객명</th>
+        <th class='cc' width="">뉴스제목</th>
+    </tr>
+    """
+    html_table = "<tr class='rc'><td class='rh' rowspan=" + str(len(df_inchon)) + ">인천광역시</td>"
+    for idx in range(len(df_inchon)):
+        if html_table.find("</tr>") > 0: ## 첫줄 빼고 tr 추가
+            html_table += "<tr class='rc'>"
+        html_table = html_table + "<td class='cc'><a href='" + df_inchon['link'].iloc[idx] + "'>" + df_inchon['title'].iloc[idx] + "</a></td></tr>"
+        # if idx == len(df_inchon) - 1:
+        #     html_table = html_table + "<tr class='rc'><td class='cce'><a href='" + df_inchon['link'].iloc[idx] + "'>" + \
+        #                  df_inchon['title'].iloc[idx] + "</a></td></tr>"
+        # else:
+        #     html_table = html_table + "<tr class='rc'><td class='cc'><a href='" + df_inchon['link'].iloc[idx] + "'>" + \
+        #                  df_inchon['title'].iloc[idx] + "</a></td></tr>"
+    html_msg = html_msg + html_table + '</table><br><br><hr>'
+
+
+## 네이버 뉴스 보도자료 크롤링 ------------------------------------------------------------------------------------------
 new_line=True
 table_title= " "
 
