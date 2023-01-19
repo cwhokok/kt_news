@@ -112,9 +112,9 @@ for name,keywords in dic.items():
                     replace_title = str(item['title']).replace("<b>", "").replace("</b>", "").replace("&quot;", "")
 
                     # 키워드와 제목 연관성 확인
-                    # if (jellyfish.jaro_similarity(keyword, replace_title) < 0.5):
-                    #     print(keyword + " !!!제목연관성!!! " + replace_title)
-                    #     continue
+                    if (jellyfish.jaro_similarity(keyword, replace_title) < 0.5):
+                        print(keyword + " !!!제목연관성!!! " + replace_title)
+                        continue
                     ## 중복뉴스 제거
                     similarit = 0
                     for msg_i in keyword_msg_array:
@@ -125,10 +125,10 @@ for name,keywords in dic.items():
                     if similarit == 1:  # 중복시 저장안하고 다음 뉴스 검색
                         continue
 
-                    ## 24시간 이내만 추출
+                    ## 일주일 이내만 추출
                     pubDate = datetime.datetime.strptime(item['pubDate'], '%a, %d %b %Y %H:%M:%S +0900')
                     _day = pubDate - datetime.datetime.now()
-                    if _day.days < -6:  ##!!!!!! -1
+                    if _day.days < -6:  ## -1
                         break
 
                     keyword_msg_array.append([keyword, replace_title, item['link']])
