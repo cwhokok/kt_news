@@ -4,6 +4,8 @@ import pandas as pd
 import jellyfish
 import smtplib
 import os
+from email.header import Header
+from email.utils import formataddr
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from bs4 import BeautifulSoup
@@ -221,7 +223,7 @@ def send_email(mail_to):
         msgRoot = MIMEMultipart('related')  # 그대로 작성
         msgRoot['Subject'] = '[지자체 press release] ' + str(datetime.datetime.today().month) + '월 ' + str(
             datetime.datetime.today().day) + '일'
-        msgRoot['From'] = 'GnNitTeam@gmail.com'
+        msgRoot['From'] = formataddr((str(Header('KT Mailing Service', 'utf-8')), 'xxxxx@gmail.com'))  # str(Header('KT안전배달원 <gnnitteam2@gmail.com>'))
         msgRoot['To'] = mail_to
         msgAlternative = MIMEMultipart('alternative')
         msgRoot.attach(msgAlternative)
@@ -234,7 +236,7 @@ def send_email(mail_to):
         ## 메일 전송
         s = smtplib.SMTP('smtp.gmail.com', 587)  # 세션 생성
         s.starttls()  # TLS 보안 시작
-        s.login('gnnitteam', 'cywyatspmibwfxdz')  # 로그인 인증
+        s.login('gnnitteam', 'hhsvtwhzamsmrgbq')  # 로그인 인증 cywyatspmibwfxdz
         s.sendmail(msgRoot['From'], msgRoot['To'], msgRoot.as_string())  # 메일 보내기
         s.quit()
     except:
@@ -244,7 +246,14 @@ def send_email(mail_to):
 
 ##mail send
 send_email('sangyoung.jun@kt.com')
+# send_email('donghyun.kimm@kt.com')
 # send_email('sunhee.ryu@kt.com')
 # send_email('kangwook.lee@kt.com')
-# send_email('young-in.kim@kt.com')
 # send_email('daehan.park@kt.com')
+# send_email('yong-sung.kim@kt.com')
+# send_email('erick815@kt.com')
+
+## 강남 법인 추가
+# send_email('yoonsung.park@kt.com')
+# send_email('br.lee@kt.com')
+# send_email('dho.lee@kt.com')

@@ -3,6 +3,8 @@ import datetime
 import pandas as pd
 import jellyfish
 import smtplib
+from email.header import Header
+from email.utils import formataddr
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 import os
@@ -154,7 +156,7 @@ for name,keywords in dic.items():
         ## Mail 초기설정
         msgRoot = MIMEMultipart('related')  # 그대로 작성
         msgRoot['Subject'] = '[Safety News] ' + str(datetime.datetime.today().month) + '월 ' + str(datetime.datetime.today().day) + '일 안전뉴스레터'
-        msgRoot['From'] = 'GnNitTeam@gmail.com'
+        msgRoot['From'] = formataddr((str(Header('KT안전배달원', 'utf-8')), 'xxxxx@gmail.com'))  # str(Header('KT안전배달원 <gnnitteam2@gmail.com>'))
         msgRoot['To'] = dic_email[name]['email']
         msgAlternative = MIMEMultipart('alternative')
         msgRoot.attach(msgAlternative)
@@ -169,7 +171,7 @@ for name,keywords in dic.items():
         ## 메일 전송
         s = smtplib.SMTP('smtp.gmail.com', 587)  # 세션 생성
         s.starttls()  # TLS 보안 시작
-        s.login('gnnitteam', 'cywyatspmibwfxdz')  # 로그인 인증
+        s.login('gnnitteam2', 'dgazeioptesfjzja')  # 로그인 인증 hhsvtwhzamsmrgbq
         s.sendmail(msgRoot['From'],msgRoot['To'], msgRoot.as_string())  # 메일 보내기
         s.quit()
     except:
